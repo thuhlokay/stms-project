@@ -12,6 +12,6 @@
 - Booking management
 
 ## Team
-L Ngwenya
-F Chauke
+L Ngwenya;
+F Chauke;
 G Seboge
