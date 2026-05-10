@@ -7,7 +7,7 @@
 - Containerisation: Docker
 
 ## Features
-- Tutor registration
+- Tutor + Student registration
 - Student booking
 - Tutor availability
 - Booking management
