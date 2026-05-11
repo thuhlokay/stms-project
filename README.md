@@ -14,5 +14,5 @@
 
 ## Team
 L Ngwenya;
-F Chauke;
+P Ndlovu;
 G Seboge
