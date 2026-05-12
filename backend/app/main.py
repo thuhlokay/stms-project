@@ -22,19 +22,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def home():
+
+    return {"message": "STMS backend is running"}
+
+from sqlalchemy import text
+from app.database import engine
+
+
 @app.get("/tables")
 def get_tables():
 
     with engine.connect() as connection:
 
-        result = connection.execute(text("SELECT name FROM sqlite_master WHERE type='table';"
-        ))
-        
+        result = connection.execute(
+            text(
+                "SELECT tablename FROM pg_tables WHERE schemaname='public';"
+            )
+        )
+
         tables = [row[0] for row in result]
-        
+
     return {"tables": tables}
-
-@app.get("/")
-def home():
-
-    return {"message": "STMS backend is running"}
