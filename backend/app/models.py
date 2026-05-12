@@ -12,6 +12,10 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     role = Column(String(20), nullable=False)
     student_number = Column(String(20), unique=True)
+    course = Column(String(100))
+    year_level = Column(Integer)
+    campus = Column(String(100))
+    phone_number = Column(String(20))
 
 class TutorProfile(Base):
     __tablename__ = "tutor_profiles"
@@ -28,10 +32,7 @@ class Service(Base):
 
     service_id = Column(Integer, primary_key=True)
 
-    tutor_id = Column(
-        Integer,
-        ForeignKey("tutor_profiles.profile_id")
-    )
+    tutor_id = Column(Integer, ForeignKey("tutor_profiles.profile_id"))
 
     module_name = Column(String(100), nullable=False)
 
