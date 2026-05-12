@@ -1,13 +1,7 @@
-function App(){
+import Home from './pages/Home'
 
-    return (
+function App() {
+  return <Home />
+}
 
-        <div>
-            <h1>STMS Frontend is running</h1>
-            <p>
-                React + TypeScript + Vite frontend setup successful.
-            </p>
-        </div>
-        );
-    }
-export default App;
+export default App
