@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+from sqlalchemy import text
+
 from app.database import engine
 from app.models import Base
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,6 +21,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/tables")
+def get_tables():
+
+    with engine.connect() as connection:
+
+        result = connection.execute(text("SELECT name FROM sqlite_master WHERE type='table';"
+        ))
+        
+        tables = [row[0] for row in result]
+        
+    return {"tables": tables}
 
 @app.get("/")
 def home():
