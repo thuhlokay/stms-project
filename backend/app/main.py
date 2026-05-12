@@ -1,18 +1,22 @@
 from fastapi import FastAPI
-
-from sqlalchemy import text
-
-from app.database import engine
-from app.models import Base
 from fastapi.middleware.cors import CORSMiddleware
+
+from sqlalchemy.orm import Session
+
+from app.database import engine, SessionLocal
+from app.models import Base, User
+from app.schemas import RegisterRequest
+
+import bcrypt
+
 
 app = FastAPI()
 
-Base.metadata.create_all(bind=engine)
 
 origins = [
     "https://studentdoctor.co.za"
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,26 +26,107 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+
+Base.metadata.create_all(bind=engine)
+
+
+@app.get('/')
 def home():
-
-    return {"message": "STMS backend is running"}
-
-from sqlalchemy import text
-from app.database import engine
+    return {
+        'message': 'STMS Backend Running'
+    }
 
 
-@app.get("/tables")
-def get_tables():
+@app.post('/register')
+def register(data: RegisterRequest):
 
-    with engine.connect() as connection:
+    db: Session = SessionLocal()
 
-        result = connection.execute(
-            text(
-                "SELECT tablename FROM pg_tables WHERE schemaname='public';"
-            )
-        )
+    existing_user = db.query(User).filter(
+        User.email == data.email
+    ).first()
 
-        tables = [row[0] for row in result]
 
-    return {"tables": tables}
+    if existing_user:
+
+        return {
+            'message': 'Email already exists'
+        }
+
+
+    hashed_password = bcrypt.hashpw(
+        data.password.encode('utf-8'),
+        bcrypt.gensalt()
+    )
+
+
+    new_user = User(
+        full_name=data.full_name,
+
+        email=data.email,
+
+        password_hash=hashed_password.decode('utf-8'),
+
+        role='STUDENT',
+
+        student_number=data.student_number,
+
+        course=data.course,
+
+        year_level=data.year_level,
+
+        campus=data.campus,
+
+        phone_number=data.phone_number
+    )
+
+
+    db.add(new_user)
+
+    db.commit()
+
+
+    return {
+        'message': 'Registration successful'
+    }
+
+@app.post('/login')
+def login(data: LoginRequest):
+
+    db: Session = SessionLocal()
+
+    user = db.query(User).filter(
+        User.email == data.email
+    ).first()
+
+
+    if not user:
+
+        return {
+            'message': 'Invalid email or password'
+        }
+
+
+    password_matches = bcrypt.checkpw(
+        data.password.encode('utf-8'),
+        user.password_hash.encode('utf-8')
+    )
+
+
+    if not password_matches:
+
+        return {
+            'message': 'Invalid email or password'
+        }
+
+
+    return {
+        'message': 'Login successful',
+
+        'user': {
+            'user_id': user.user_id,
+            'full_name': user.full_name,
+            'email': user.email,
+            'role': user.role
+        }
+    }
