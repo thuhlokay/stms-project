@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database import engine, SessionLocal
 from app.models import Base, User, TutorProfile, Booking
-from app.schemas import RegisterRequest, BookingRequest
+from app.schemas import RegisterRequest, BookingRequest, LoginRequest
 
 import bcrypt
 
