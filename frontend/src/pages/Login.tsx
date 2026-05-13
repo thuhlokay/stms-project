@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import API_URL from '../services/api'
 
 function Login() {
+
+  const navigate = useNavigate()
 
   const [email, setEmail] = useState('')
 
@@ -36,7 +39,14 @@ function Login() {
 
       const data = await response.json()
 
-      setMessage(data.message)
+      if (data.message === 'Login successful') {
+
+        navigate('/dashboard')
+
+      } else {
+
+        setMessage(data.message)
+      }
 
     } catch (error) {
 
