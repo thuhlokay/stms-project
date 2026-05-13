@@ -12,6 +12,7 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     role = Column(String(20), nullable=False)
     student_number = Column(String(20), unique=True)
+    course = Column(String(100))
     year_level = Column(Integer)
     campus = Column(String(100))
     phone_number = Column(String(20))

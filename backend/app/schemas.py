@@ -10,6 +10,8 @@ class RegisterRequest(BaseModel):
     password: str
 
     student_number: str
+    
+    course: str
 
     year_level: int
 

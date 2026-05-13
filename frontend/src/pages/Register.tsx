@@ -8,6 +8,7 @@ function Register() {
     email: '',
     password: '',
     student_number: '',
+    course: '',
     year_level: '',
     campus: '',
     phone_number: ''
@@ -97,6 +98,13 @@ function Register() {
           type="text"
           name="student_number"
           placeholder="Student Number"
+          onChange={handleChange}
+        />
+
+        <input
+          type="text"
+          name="course"
+          placeholder="Course"
           onChange={handleChange}
         />
 
