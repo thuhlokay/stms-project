@@ -24,3 +24,9 @@ class LoginRequest(BaseModel):
     email: EmailStr
 
     password: str
+
+class BookingRequest(BaseModel):
+
+    tutor_id: int
+
+    student_id: int
