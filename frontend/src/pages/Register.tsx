@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import API_URL from '../services/api'
 
 function Register() {
+
+  const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
     full_name: '',
@@ -51,7 +54,16 @@ function Register() {
 
       const data = await response.json()
 
-      setMessage(data.message)
+      if (
+        data.message === 'Registration successful'
+      ) {
+
+        navigate('/login')
+
+      } else {
+
+        setMessage(data.message)
+      }
 
     } catch (error) {
 
