@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database import engine, SessionLocal
 from app.models import Base, User, TutorProfile, Booking
-from app.schemas import RegisterRequest, BookingRequest
+from app.schemas import RegisterRequest, BookingRequest, LoginRequest
 
 import bcrypt
 
@@ -14,7 +14,10 @@ app = FastAPI()
 
 
 origins = [
-    "https://studentdoctor.co.za"
+    "https://studentdoctor.co.za",
+    "https://www.studentdoctor.co.za",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"
 ]
 
 

@@ -8,7 +8,6 @@ function Register() {
     email: '',
     password: '',
     student_number: '',
-    course: '',
     year_level: '',
     campus: '',
     phone_number: ''
@@ -29,7 +28,7 @@ function Register() {
 
 
   const handleSubmit = async (
-    e: React.FormEvent
+    e: React.SubmitEvent
   ) => {
 
     e.preventDefault()
@@ -101,12 +100,6 @@ function Register() {
           onChange={handleChange}
         />
 
-        <input
-          type="text"
-          name="course"
-          placeholder="Course"
-          onChange={handleChange}
-        />
 
         <input
           type="number"
