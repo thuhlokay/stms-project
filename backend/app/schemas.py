@@ -11,8 +11,6 @@ class RegisterRequest(BaseModel):
 
     student_number: str
 
-    course: str
-
     year_level: int
 
     campus: str
