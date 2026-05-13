@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from app.database import engine, SessionLocal
-from app.models import Base, User
-from app.schemas import RegisterRequest
+from app.models import Base, User, TutorProfile, Booking
+from app.schemas import RegisterRequest, BookingRequest
 
 import bcrypt
 
@@ -129,4 +129,93 @@ def login(data: LoginRequest):
             'email': user.email,
             'role': user.role
         }
+    }
+
+@app.get('/tutors')
+def get_tutors():
+
+    db: Session = SessionLocal()
+
+    tutors = db.query(
+        TutorProfile
+    ).all()
+
+
+    results = []
+
+    for tutor in tutors:
+
+        user = db.query(User).filter(
+            User.user_id == tutor.user_id
+        ).first()
+
+        results.append({
+
+            'profile_id': tutor.profile_id,
+
+            'full_name': user.full_name,
+
+            'specialisation':
+                tutor.specialisation
+        })
+
+    return results
+
+@app.post('/book')
+def create_booking(
+    data: BookingRequest
+):
+
+    db: Session = SessionLocal()
+
+
+    booking = Booking(
+
+        tutor_id=data.tutor_id,
+
+        student_id=data.student_id,
+
+        status='PENDING'
+    )
+
+    db.add(booking)
+
+    db.commit()
+
+
+    return {
+        'message': 'Booking successful'
+    }
+
+@app.get('/seed')
+def seed_data():
+
+    db: Session = SessionLocal()
+
+    user = User(
+        full_name='John Tutor',
+        email='tutor@test.com',
+        password_hash='123',
+        role='TUTOR'
+    )
+
+    db.add(user)
+
+    db.commit()
+
+    db.refresh(user)
+
+
+    tutor = TutorProfile(
+        user_id=user.user_id,
+        specialisation='Mathematics'
+    )
+
+    db.add(tutor)
+
+    db.commit()
+
+
+    return {
+        'message': 'Tutor created'
     }

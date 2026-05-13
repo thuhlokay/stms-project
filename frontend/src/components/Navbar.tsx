@@ -1,16 +1,48 @@
+import {
+  Link
+} from 'react-router-dom'
+
+
 function Navbar() {
+
   return (
+
     <nav className="navbar">
-      <div className="logo">STMS</div>
+
+      <div className="logo">
+        STMS
+      </div>
 
       <ul className="nav-links">
-        <li>Home</li>
-        <li>About</li>
-        <li>Services</li>
-        <li>Login</li>
+
+        <li>
+          <Link to="/">
+            Home
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/tutors">
+            Tutors
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/login">
+            Login
+          </Link>
+        </li>
+
       </ul>
 
-      <button className="register-btn">Register</button>
+      <Link to="/register">
+
+        <button className="register-btn">
+          Register
+        </button>
+
+      </Link>
+
     </nav>
   )
 }
