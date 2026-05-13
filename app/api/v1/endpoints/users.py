@@ -4,7 +4,7 @@ from app.core.database import get_db
 from app.schemas.user import UserResponse
 from app.services.user_service import UserService
 from app.api.v1.deps import get_current_active_user, get_current_active_superuser
-from app.models.user import user
+from app.models.user import User
 
 router = APIRouter()
 
