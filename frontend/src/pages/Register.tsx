@@ -29,7 +29,7 @@ function Register() {
 
 
   const handleSubmit = async (
-    e: React.FormEvent
+    e: React.SubmitEvent
   ) => {
 
     e.preventDefault()
